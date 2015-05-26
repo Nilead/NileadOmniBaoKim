@@ -6,7 +6,6 @@ use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * TODO: Chua viet xong.
  * Bao Kim Response
  */
 class Response extends AbstractResponse
@@ -19,7 +18,7 @@ class Response extends AbstractResponse
 
     public function isSuccessful()
     {
-        return isset($this->data['ACK']) && in_array($this->data['ACK'], ['Success', 'SuccessWithWarning']);
+        return false;
     }
 
     public function getTransactionReference()

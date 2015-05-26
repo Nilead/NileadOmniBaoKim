@@ -136,6 +136,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $data = [];
         $data['business'] = $this->getBusiness();
+        $data['merchant_id'] = $this->getUsername();
 
         return $data;
     }
@@ -143,6 +144,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function sendData($data)
     {
         $url = $this->getEndpoint() . '?' . http_build_query($this->generateDataWithChecksum($data), '', '&');
+
         $httpResponse = $this->httpClient->get($url)->send();
 
         return $this->createResponse($httpResponse->getBody());
@@ -158,7 +160,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response = new Response($this, $data);
     }
 
-    protected function generateDataWithChecksum($data)
+    public function generateDataWithChecksum($data)
     {
         ksort($data);
         $data['checksum'] = hash_hmac('SHA1', implode('', $data), $this->getPassword());

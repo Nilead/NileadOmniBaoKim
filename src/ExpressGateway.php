@@ -32,12 +32,12 @@ class ExpressGateway extends ProGateway
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressAuthorizeRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressAuthorizeRequest', $parameters);
     }
 
     public function completeAuthorize(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressCompleteAuthorizeRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressCompleteAuthorizeRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
@@ -47,11 +47,11 @@ class ExpressGateway extends ProGateway
 
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressCompletePurchaseRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressCompletePurchaseRequest', $parameters);
     }
 
     public function fetchCheckout(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressFetchCheckoutRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressFetchCheckoutRequest', $parameters);
     }
 }
