@@ -56,26 +56,26 @@ class ProGateway extends AbstractGateway
 
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ProAuthorizeRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ProAuthorizeRequest', $parameters);
     }
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ProPurchaseRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ProPurchaseRequest', $parameters);
     }
 
     public function capture(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\CaptureRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\CaptureRequest', $parameters);
     }
 
     public function refund(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\RefundRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\RefundRequest', $parameters);
     }
 
     public function fetchTransaction(array $parameters = array())
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\FetchTransactionRequest', $parameters);
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\FetchTransactionRequest', $parameters);
     }
 }

@@ -14,11 +14,10 @@ class ExpressAuthorizeRequest extends AbstractRequest
         $data = $this->getBaseData();
         $data['METHOD'] = 'SetExpressCheckout';
         $data['total_amount'] = $this->getAmount();
-        $data['currency'] = $this->getCurrency();
-        $data['order_description'] = $this->getCurrency();
         $data['url_success'] = $this->getReturnUrl();
         $data['url_cancel'] = $this->getCancelUrl();
-
+        $data['order_id'] = $this->getTransactionId();
+        $data['currency'] = $this->getCurrency();
         return $data;
     }
 

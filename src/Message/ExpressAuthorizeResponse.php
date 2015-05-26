@@ -5,7 +5,6 @@ namespace Nilead\OmniBaoKim\Message;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
- * TODO: Chua viet xong
  * Bao Kim Express Authorize Response
  */
 class ExpressAuthorizeResponse extends Response implements RedirectResponseInterface
@@ -20,16 +19,12 @@ class ExpressAuthorizeResponse extends Response implements RedirectResponseInter
 
     public function isRedirect()
     {
-        return isset($this->data['ACK']) && in_array($this->data['ACK'], ['Success', 'SuccessWithWarning']);
+        return true;
     }
 
     public function getRedirectUrl()
     {
-        $query = [
-            'cmd'        => '_express-checkout',
-            'useraction' => 'commit',
-            'token'      => $this->getTransactionReference(),
-        ];
+        $query = $this->getRequest()->generateDataWithChecksum($this->getRequest()->getData());
 
         return $this->getCheckoutEndpoint() . '?' . http_build_query($query, '', '&');
     }
