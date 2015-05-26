@@ -1,0 +1,33 @@
+{
+    "name": "nilead/omni-baokim",
+    "type": "nilead-library",
+    "description": "Baokim gateway for Omnipay payment processing library",
+    "keywords": [
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment",
+        "paypal",
+        "purchase"
+    ],
+    "authors": [
+        {
+            "name": "Nilead Team",
+            "email": "support@nilead.com",
+            "homepage": "http://nilead.com"
+        }
+    ],
+    "repositories": [
+        { "type": "composer", "url": "http://satis.nilead.com/" }
+    ],
+    "autoload": {
+        "psr-4": { "Nilead\\OmniBaoKim\\" : "src/" }
+    },
+    "require": {
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    }
+}
