@@ -1,11 +1,12 @@
 <?php
-
 namespace Nilead\OmniBaoKim;
+
+use Omnipay\Common\AbstractGateway;
 
 /**
  * Bao Kim Express Class
  */
-class ExpressGateway extends ProGateway
+class ExpressGateway extends AbstractGateway
 {
     public function getName()
     {
@@ -14,10 +15,15 @@ class ExpressGateway extends ProGateway
 
     public function getDefaultParameters()
     {
-        $settings = parent::getDefaultParameters();
-        $settings['business'] = '';
-
-        return $settings;
+        return [
+            'business'        => '',
+            'merchant'        => '',
+            'websitePassword' => '',
+            'apiUsername'     => '',
+            'apiPassword'     => '',
+            'apiSignature'    => '',
+            'testMode'        => false,
+        ];
     }
 
     public function getBusiness()
@@ -30,28 +36,73 @@ class ExpressGateway extends ProGateway
         return $this->setParameter('business', $value);
     }
 
-    public function authorize(array $parameters = array())
+    public function getMerchant()
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressAuthorizeRequest', $parameters);
+        return $this->getParameter('merchant');
     }
 
-    public function completeAuthorize(array $parameters = array())
+    public function setMerchant($value)
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressCompleteAuthorizeRequest', $parameters);
+        return $this->setParameter('merchant', $value);
     }
 
-    public function purchase(array $parameters = array())
+    public function getWebsitePassword()
     {
-        return $this->authorize($parameters);
+        return $this->getParameter('websitePassword');
     }
 
-    public function completePurchase(array $parameters = array())
+    public function setWebsitePassword($value)
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressCompletePurchaseRequest', $parameters);
+        return $this->setParameter('websitePassword', $value);
     }
 
-    public function fetchCheckout(array $parameters = array())
+    public function getApiUsername()
     {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ExpressFetchCheckoutRequest', $parameters);
+        return $this->getParameter('apiUsername');
+    }
+
+    public function setApiUsername($value)
+    {
+        return $this->setParameter('apiUsername', $value);
+    }
+
+    public function getApiPassword()
+    {
+        return $this->getParameter('apiPassword');
+    }
+
+    public function setApiPassword($value)
+    {
+        return $this->setParameter('apiPassword', $value);
+    }
+
+    public function getApiSignature()
+    {
+        return $this->getParameter('apiSignature');
+    }
+
+    public function setApiSignature($value)
+    {
+        return $this->setParameter('apiSignature', $value);
+    }
+
+    public function getTestMode()
+    {
+        return $this->getParameter('testMode');
+    }
+
+    public function setTestMode($value)
+    {
+        return $this->setParameter('testMode', $value);
+    }
+
+    public function purchase(array $parameters = [])
+    {
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressPurchaseRequest', $parameters);
+    }
+
+    public function completePurchase(array $parameters = [])
+    {
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ExpressCompletePurchaseRequest', $parameters);
     }
 }
