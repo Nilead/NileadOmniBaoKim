@@ -2,15 +2,18 @@
 /**
  * Bao Kim Abstract Request
  */
-
 namespace Nilead\OmniBaoKim\Message;
 
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     const API_VERSION = '11.0';
 
-    protected $liveEndpoint = 'https://www.baokim.vn/payment/order/version11';
+    protected $liveEndpoint = 'http://kiemthu.baokim.vn/payment/order/version11';
     protected $testEndpoint = 'http://kiemthu.baokim.vn/payment/order/version11';
+
+    protected $baokim_api_seller_info = '/payment/rest/payment_pro_api/get_seller_info';
+    protected $baokim_api_transaction_info = '/payment/order/queryTransaction';
+    protected $baokim_api_payment_pro = '/payment/rest/payment_pro_api/pay_by_card';
 
     public function getBusiness()
     {
@@ -22,147 +25,119 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('business', $value);
     }
 
-    public function getUsername()
+    public function getMerchant()
     {
-        return $this->getParameter('username');
+        return $this->getParameter('merchant');
     }
 
-    public function setUsername($value)
+    public function setMerchant($value)
     {
-        return $this->setParameter('username', $value);
+        return $this->setParameter('merchant', $value);
     }
 
-    public function getPassword()
+    public function getWebsitePassword()
     {
-        return $this->getParameter('password');
+        return $this->getParameter('websitePassword');
     }
 
-    public function setPassword($value)
+    public function setWebsitePassword($value)
     {
-        return $this->setParameter('password', $value);
+        return $this->setParameter('websitePassword', $value);
     }
 
-    public function getSignature()
+    public function getApiUsername()
     {
-        return $this->getParameter('signature');
+        return $this->getParameter('apiUsername');
     }
 
-    public function setSignature($value)
+    public function setApiUsername($value)
     {
-        return $this->setParameter('signature', $value);
+        return $this->setParameter('apiUsername', $value);
     }
 
-    public function getNoShipping()
+    public function getApiPassword()
     {
-        return $this->getParameter('noShipping');
+        return $this->getParameter('apiPassword');
     }
 
-    public function setNoShipping($value)
+    public function setApiPassword($value)
     {
-        return $this->setParameter('noShipping', $value);
+        return $this->setParameter('apiPassword', $value);
     }
 
-    public function getAllowNote()
+    public function getApiSignature()
     {
-        return $this->getParameter('allowNote');
+        return $this->getParameter('apiSignature');
     }
 
-    public function setAllowNote($value)
+    public function setApiSignature($value)
     {
-        return $this->setParameter('allowNote', $value);
+        return $this->setParameter('apiSignature', $value);
     }
 
-    public function getAddressOverride()
+    public function generateChecksum($data)
     {
-        return $this->getParameter('addressOverride');
-    }
+        ksort($data);
 
-    public function setAddressOverride($value)
-    {
-        return $this->setParameter('addressOverride', $value);
-    }
-
-    public function getMaxAmount()
-    {
-        return $this->getParameter('maxAmount');
-    }
-
-    public function setMaxAmount($value)
-    {
-        return $this->setParameter('maxAmount', $value);
-    }
-
-    public function getTaxAmount()
-    {
-        return $this->getParameter('taxAmount');
-    }
-
-    public function setTaxAmount($value)
-    {
-        return $this->setParameter('taxAmount', $value);
-    }
-
-    public function getShippingAmount()
-    {
-        return $this->getParameter('shippingAmount');
-    }
-
-    public function setShippingAmount($value)
-    {
-        return $this->setParameter('shippingAmount', $value);
-    }
-
-    public function getHandlingAmount()
-    {
-        return $this->getParameter('handlingAmount');
-    }
-
-    public function setHandlingAmount($value)
-    {
-        return $this->setParameter('handlingAmount', $value);
-    }
-
-    public function getShippingDiscount()
-    {
-        return $this->getParameter('shippingDiscount');
-    }
-
-    public function setShippingDiscount($value)
-    {
-        return $this->setParameter('shippingDiscount', $value);
-    }
-
-    protected function getBaseData()
-    {
-        $data = [];
-        $data['business'] = $this->getBusiness();
+        $data['checksum'] = hash_hmac('SHA1', implode('', $data), $this->getWebsitePassword());
 
         return $data;
     }
 
     public function sendData($data)
     {
-        $url = $this->getEndpoint() . '?' . http_build_query($this->generateDataWithChecksum($data), '', '&');
+        $url = $this->getEndpoint() . '?' . http_build_query($data, '', '&');
         $httpResponse = $this->httpClient->get($url)->send();
 
         return $this->createResponse($httpResponse->getBody());
     }
 
-    protected function getEndpoint()
+    /**
+     * @param       $method
+     * @param       $url
+     * @param array $getArgs
+     * @param       $priKeyFile
+     *
+     * @return string
+     */
+    public function makeBaoKimAPISignature($method, $url, $getArgs = [], $priKeyFile)
     {
-        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        if (strpos($url, '?') !== false) {
+            list($url, $get) = explode('?', $url);
+            parse_str($get, $get);
+            $getArgs = array_merge($get, $getArgs);
+        }
+
+        ksort($getArgs);
+        $method = strtoupper($method);
+
+        $data = $method . '&' . urlencode($url) . '&' . urlencode(http_build_query($getArgs));
+
+        $priKey = openssl_get_privatekey($priKeyFile);
+        assert('$priKey !== false');
+
+        $x = openssl_sign($data, $signature, $priKey, OPENSSL_ALGO_SHA1);
+        assert('$x !== false');
+
+        return urlencode(base64_encode($signature));
     }
 
     protected function createResponse($data)
     {
-        return $this->response = new Response($this, $data);
+        return $this->response = new ExpressCompletePurchaseResponse($this, $data);
     }
 
-    protected function generateDataWithChecksum($data)
+    protected function getBaseData()
     {
-        ksort($data);
-        $data['checksum'] = hash_hmac('SHA1', implode('', $data), $this->getPassword());
+        $data = [];
+        $data['business'] = $this->getBusiness();
+        $data['merchant_id'] = $this->getMerchant();
 
         return $data;
+    }
+
+    protected function getEndpoint()
+    {
+        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 }

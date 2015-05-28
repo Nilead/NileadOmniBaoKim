@@ -1,81 +1,24 @@
 <?php
-
 namespace Nilead\OmniBaoKim;
-
-use Omnipay\Common\AbstractGateway;
 
 /**
  * Bao Kim Pro Class
  */
-class ProGateway extends AbstractGateway
+class ProGateway extends ExpressGateway
 {
     public function getName()
     {
-        return 'PayPal Pro';
+        return 'BaoKim Pro';
     }
 
-    public function getDefaultParameters()
+    public function purchase(array $parameters = [])
     {
-        return array(
-            'username' => '',
-            'password' => '',
-            'signature' => '',
-            'testMode' => false,
-        );
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ProPurchaseRequest', $parameters);
     }
 
-    public function getUsername()
+    public function completePurchase(array $parameters = [])
     {
-        return $this->getParameter('username');
+        return $this->createRequest('\Nilead\OmniBaoKim\Message\ProCompletePurchaseRequest', $parameters);
     }
 
-    public function setUsername($value)
-    {
-        return $this->setParameter('username', $value);
-    }
-
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
-
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
-    }
-
-    public function getSignature()
-    {
-        return $this->getParameter('signature');
-    }
-
-    public function setSignature($value)
-    {
-        return $this->setParameter('signature', $value);
-    }
-
-    public function authorize(array $parameters = array())
-    {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ProAuthorizeRequest', $parameters);
-    }
-
-    public function purchase(array $parameters = array())
-    {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\ProPurchaseRequest', $parameters);
-    }
-
-    public function capture(array $parameters = array())
-    {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\CaptureRequest', $parameters);
-    }
-
-    public function refund(array $parameters = array())
-    {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\RefundRequest', $parameters);
-    }
-
-    public function fetchTransaction(array $parameters = array())
-    {
-        return $this->createRequest('\Nilead\OmniBaoKim\src\Message\FetchTransactionRequest', $parameters);
-    }
 }
