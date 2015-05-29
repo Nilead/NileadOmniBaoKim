@@ -75,6 +75,16 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->setParameter('apiSignature', $value);
     }
 
+    public function setTransactionReference($value)
+    {
+        return $this->setParameter('transactionReference', $value);
+    }
+
+    public function getTransactionReference()
+    {
+        return $this->getParameter('transactionReference');
+    }
+
     public function generateChecksum($data)
     {
         ksort($data);
@@ -114,9 +124,11 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data = $method . '&' . urlencode($url) . '&' . urlencode(http_build_query($getArgs));
 
         $priKey = openssl_get_privatekey($priKeyFile);
+
         assert('$priKey !== false');
 
         $x = openssl_sign($data, $signature, $priKey, OPENSSL_ALGO_SHA1);
+
         assert('$x !== false');
 
         return urlencode(base64_encode($signature));
