@@ -11,7 +11,7 @@ class ExpressPurchaseRequest extends AbstractRequest
         $data = $this->getBaseData();
         $data['total_amount'] = $this->getAmount();
         $data['order_id'] = md5($this->getTransactionId());
-        $data['transaction_mode_id'] = 1; // 1: trực tiếp 2: an toàn, default: 1
+        $data['transaction_mode_id'] = 2;
         $data['url_success'] = $this->getReturnUrl();
         $data['url_cancel'] = $this->getCancelUrl();
         $data['currency'] = $this->getCurrency();
