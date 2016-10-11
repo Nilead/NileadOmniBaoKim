@@ -25,6 +25,6 @@
         "psr-4": { "Nilead\\OmniBaoKim\\" : "src/" }
     },
     "require": {
-        "omnipay/omnipay": "3.0-dev"
+       "league/omnipay": "3.0-dev"
     }
 }
