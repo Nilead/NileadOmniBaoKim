@@ -54,7 +54,7 @@ class ExpressFetchCheckoutRequestTest extends TestCase
         $this->setMockHttpResponse('ExpressFetchCheckoutSuccess.txt');
 
         $response = $this->request->send();
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isCompleted());
         $this->assertFalse($response->isRedirect());
     }
 
@@ -63,7 +63,7 @@ class ExpressFetchCheckoutRequestTest extends TestCase
         $this->setMockHttpResponse('ExpressFetchCheckoutFailure.txt');
 
         $response = $this->request->send();
-        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isCompleted());
         $this->assertFalse($response->isRedirect());
         $this->assertSame('The amount exceeds the maximum amount for a single transaction.', $response->getMessage());
     }

@@ -1,8 +1,8 @@
 <?php
 namespace Nilead\OmniBaoKim\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
+use League\Omnipay\Common\Message\AbstractResponse;
+use League\Omnipay\Common\Message\RequestInterface;
 
 /**
  * Bao Kim Response
@@ -28,7 +28,7 @@ class Response extends AbstractResponse
         parse_str($data, $this->data);
     }
 
-    public function isSuccessful()
+    public function isCompleted()
     {
         return (empty($this->data['error']) && !empty($this->data['transaction_status']) && $this->getCode() < 400) && (($this->data['transaction_status'] == 4) || ($this->data['transaction_status'] == 13));
     }
