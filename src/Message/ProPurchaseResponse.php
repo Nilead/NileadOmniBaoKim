@@ -1,7 +1,7 @@
 <?php
 namespace Nilead\OmniBaoKim\Message;
 
-use Omnipay\Common\Message\RedirectResponseInterface;
+use League\Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
  * Bao Kim Pro Purchase Response
@@ -11,7 +11,7 @@ class ProPurchaseResponse extends Response implements RedirectResponseInterface
     protected $liveEndpoint = 'http://kiemthu.baokim.vn/payment/order/version11';
     protected $testEndpoint = 'http://kiemthu.baokim.vn/payment/order/version11';
 
-    public function isSuccessful()
+    public function isCompleted()
     {
         return false;
     }

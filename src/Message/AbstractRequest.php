@@ -4,7 +4,7 @@
  */
 namespace Nilead\OmniBaoKim\Message;
 
-abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class AbstractRequest extends \League\Omnipay\Common\Message\AbstractRequest
 {
     const API_VERSION = '11.0';
 

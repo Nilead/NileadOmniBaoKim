@@ -3,7 +3,7 @@
 namespace Nilead\OmniBaoKim;
 
 use Omnipay\Tests\GatewayTestCase;
-use Omnipay\Common\CreditCard;
+use League\Omnipay\Common\CreditCard;
 
 class ProGatewayTest extends GatewayTestCase
 {
@@ -32,7 +32,7 @@ class ProGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->authorize($this->options)->send();
 
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isCompleted());
         $this->assertEquals('96U93778BD657313D', $response->getTransactionReference());
         $this->assertNull($response->getMessage());
     }
@@ -43,7 +43,7 @@ class ProGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($this->options)->send();
 
-        $this->assertTrue($response->isSuccessful());
+        $this->assertTrue($response->isCompleted());
         $this->assertEquals('96U93778BD657313D', $response->getTransactionReference());
         $this->assertNull($response->getMessage());
     }

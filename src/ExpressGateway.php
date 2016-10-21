@@ -1,7 +1,7 @@
 <?php
 namespace Nilead\OmniBaoKim;
 
-use Omnipay\Common\AbstractGateway;
+use League\Omnipay\Common\AbstractGateway;
 
 /**
  * Bao Kim Express Class

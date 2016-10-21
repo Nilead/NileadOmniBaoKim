@@ -2,7 +2,7 @@
 
 namespace Nilead\OmniBaoKim\Message;
 
-use Omnipay\Common\CreditCard;
+use League\Omnipay\Common\CreditCard;
 use Omnipay\Tests\TestCase;
 
 class ExpressAuthorizeRequestTest extends TestCase

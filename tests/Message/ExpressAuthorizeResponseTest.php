@@ -21,7 +21,7 @@ class ExpressAuthorizeResponseTest extends TestCase
         $request->shouldReceive('getTestMode')->once()->andReturn(true);
         $response = new ExpressAuthorizeResponse($request, $httpResponse->getBody());
 
-        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isCompleted());
         $this->assertSame('EC-42721413K79637829', $response->getTransactionReference());
         $this->assertNull($response->getMessage());
         $this->assertNull($response->getRedirectData());
@@ -34,7 +34,7 @@ class ExpressAuthorizeResponseTest extends TestCase
         $httpResponse = $this->getMockHttpResponse('ExpressPurchaseFailure.txt');
         $response = new ExpressAuthorizeResponse($this->getMockRequest(), $httpResponse->getBody());
 
-        $this->assertFalse($response->isSuccessful());
+        $this->assertFalse($response->isCompleted());
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getTransactionReference());
         $this->assertSame('This transaction cannot be processed. The amount to be charged is zero.', $response->getMessage());
