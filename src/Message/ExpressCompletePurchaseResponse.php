@@ -1,7 +1,7 @@
 <?php
 namespace Nilead\OmniBaoKim\Message;
 
-use League\Omnipay\Common\Message\RedirectResponseInterface;
+use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
  * Bao Kim Express Authorize Response

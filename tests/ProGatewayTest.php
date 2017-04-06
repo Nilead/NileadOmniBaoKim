@@ -2,10 +2,9 @@
 
 namespace Nilead\OmniBaoKim;
 
-use Omnipay\Tests\GatewayTestCase;
-use League\Omnipay\Common\CreditCard;
+use Omnipay\Common\CreditCard;
 
-class ProGatewayTest extends GatewayTestCase
+class ProGatewayTest
 {
     public function setUp()
     {
@@ -32,7 +31,7 @@ class ProGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->authorize($this->options)->send();
 
-        $this->assertTrue($response->isCompleted());
+        $this->assertTrue($response->isSuccessful());
         $this->assertEquals('96U93778BD657313D', $response->getTransactionReference());
         $this->assertNull($response->getMessage());
     }
@@ -43,7 +42,7 @@ class ProGatewayTest extends GatewayTestCase
 
         $response = $this->gateway->purchase($this->options)->send();
 
-        $this->assertTrue($response->isCompleted());
+        $this->assertTrue($response->isSuccessful());
         $this->assertEquals('96U93778BD657313D', $response->getTransactionReference());
         $this->assertNull($response->getMessage());
     }

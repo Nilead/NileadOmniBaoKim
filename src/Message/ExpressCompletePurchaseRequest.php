@@ -2,7 +2,6 @@
 
 namespace Nilead\OmniBaoKim\Message;
 
-use Guzzle\Http\Message\RequestInterface;
 
 /**
  * Bao Kim Express Complete Purchase Request
@@ -25,10 +24,10 @@ class ExpressCompletePurchaseRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        $signature = $this->makeBaoKimAPISignature(RequestInterface::GET, $this->baokim_api_transaction_info, $data, $this->getApiSignature());
+        $signature = $this->makeBaoKimAPISignature('get', $this->baokim_api_transaction_info, $data, $this->getApiSignature());
 
         $url = $this->generateUrlBaoKim($signature, $data);
-        $httpResponse = $this->httpClient->get($url)->send();
+        $httpResponse = $this->httpClient->get($url);
 
         return $this->createResponse($httpResponse->getBody());
     }
