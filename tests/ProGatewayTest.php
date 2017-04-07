@@ -3,8 +3,9 @@
 namespace Nilead\OmniBaoKim;
 
 use Omnipay\Common\CreditCard;
+use Omnipay\Tests\GatewayTestCase;
 
-class ProGatewayTest
+class ProGatewayTest extends GatewayTestCase
 {
     public function setUp()
     {
