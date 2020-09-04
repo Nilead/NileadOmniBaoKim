@@ -26,8 +26,5 @@
     },
     "require": {
        "league/omnipay": "3.0.x-dev"
-    },
-    "require-dev": {
-        "omnipay/tests": "3.0.x-dev"
     }
 }
